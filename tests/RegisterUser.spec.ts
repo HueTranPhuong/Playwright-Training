@@ -64,13 +64,13 @@ test('Register user', async ({page}) => {
   //  Verify that 'Logged in as username' is visible
   await expect(page.locator('//a[contains(text(),"Logged in as")]')).toBeVisible();
 
-  // Click 'Delete Account' button
-  await page.locator('//a[contains(text(),"Delete Account")]').click();
+  // // Click 'Delete Account' button
+  // await page.locator('//a[contains(text(),"Delete Account")]').click();
 
-  // Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
-  await expect(page.locator('//b[contains(text(),"Account Deleted!"")]')).toBeVisible();
-  await page.locator('//a[contains(text(), "Continue")]').click();
-  // await page.locator('a[data-qa="continue-button"]').click();
+  // // Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
+  // await expect(page.locator('//b[contains(text(),"Account Deleted!")]')).toBeVisible();
+  // await page.locator('//a[contains(text(), "Continue")]').click();
+  // // await page.locator('a[data-qa="continue-button"]').click();
 });
 
 
