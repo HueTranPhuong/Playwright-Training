@@ -2,9 +2,16 @@ import { test, expect } from '@playwright/test';
 
 const title = 'Automation Exercise';
 const name = 'Huetran';
-const email = 'hue@yopmail.com'
+const email = 'hue12@yopmail.com'
 const password = '123456aA@'
+const accounttitle = 'Mr'
 
+//c2 điền dob
+const dob = {
+  'date': '25',
+  'month': 'July',
+  'year': '1995'
+}
 
 test('Register user', async ({page}) => {
   //
@@ -30,12 +37,19 @@ test('Register user', async ({page}) => {
   await expect(page.locator('//b[text()="Enter Account Information"]')).toBeVisible();
 
   //Fill details: Title, Name, Email, Password, Date of birth
-  await page.locator('input#id_gender2').click();
+  await page.locator(`input[value="${accounttitle}"]`).check();
   await page.locator('input#password').fill('123456aA@');
-  //date of birth 
-  await page.locator('select#days').selectOption('25');
-  await page.locator('select#months').selectOption('July');
-  await page.locator('select#years').selectOption('1995');
+  
+  //date of birth c1
+  // await page.locator('select#days').selectOption('25');
+  // await page.locator('select#months').selectOption('July');
+  // await page.locator('select#years').selectOption('1995');
+
+  // fill dob c2
+  await page.locator('select#days').selectOption({label : dob.date });
+  await page.locator('select#months').selectOption({label : dob.month });
+  await page.locator('select#years').selectOption({label : dob.year });
+
 
   // Select checkbox 'Sign up for our newsletter!' & 'Receive special offers from our partners!'
   await page.locator('input#newsletter').click();
@@ -64,15 +78,14 @@ test('Register user', async ({page}) => {
   //  Verify that 'Logged in as username' is visible
   await expect(page.locator('//a[contains(text(),"Logged in as")]')).toBeVisible();
 
-  // // Click 'Delete Account' button
-  // await page.locator('//a[contains(text(),"Delete Account")]').click();
+  // Click 'Delete Account' button
+  await page.locator('//a[contains(text(),"Delete Account")]').click();
 
-  // // Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
-  // await expect(page.locator('//b[contains(text(),"Account Deleted!")]')).toBeVisible();
-  // await page.locator('//a[contains(text(), "Continue")]').click();
-  // // await page.locator('a[data-qa="continue-button"]').click();
+  // Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
+  await expect(page.locator('//b[contains(text(),"Account Deleted!")]')).toBeVisible();
+  await page.locator('//a[contains(text(), "Continue")]').click();
+  // await page.locator('a[data-qa="continue-button"]').click();
 });
-
 
 test('Login success', async ({page}) => {
 
@@ -97,12 +110,65 @@ test('Login success', async ({page}) => {
   //  Verify that 'Logged in as username' is visible
   await expect(page.locator('//a[contains(text(),"Logged in as")]')).toBeVisible();
 
-  // Click 'Delete Account' button
-  await page.locator('//a[contains(text(),"Delete Account")]').click();
+  // // Click 'Delete Account' button
+  // await page.locator('//a[contains(text(),"Delete Account")]').click();
 
-  // Verify that 'ACCOUNT DELETED!' is visible 
-  await expect(page.locator('//b[contains(text(),"Account Deleted!")]')).toBeVisible();
+  // // Verify that 'ACCOUNT DELETED!' is visible 
+  // await expect(page.locator('//b[contains(text(),"Account Deleted!")]')).toBeVisible();
   
+})
+
+test( 'Login incorrect email & password',async ({page}) => {
+  await page.goto('http://automationexercise.com');
+
+  //Verify that home page is visible successfully
+  await expect(page).toHaveTitle(title);
+
+  //Click on 'Signup / Login' button
+  await page.locator('//a[contains(text(),"Login")]').click();
+
+  //Verify 'Login to your account' is visible
+  await expect(page.locator('div.login-form h2')).toBeVisible();
+
+  //Enter correct email address and password
+  await page.locator('div.login-form input[type="email"]').fill("test@yopmail.com");
+  await page.locator('input[name="password"]').fill("1234567890");
+
+  //Click 'Login' button
+  await page.locator('//button[contains(text(),"Login")]').click();
+
+  //  Verify that 'Logged in as username' is visible
+  await expect(page.locator('//p[text()="Your email or password is incorrect!"]')).toBeVisible();
+  
+})
+
+test('Logout user', async ({page}) => {
+  await page.goto('http://automationexercise.com');
+
+  //Verify that home page is visible successfully
+  await expect(page).toHaveTitle(title);
+
+  //Click on 'Signup / Login' button
+  await page.locator('//a[contains(text(),"Login")]').click();
+
+  //Verify 'Login to your account' is visible
+  await expect(page.locator('div.login-form h2')).toBeVisible();
+
+  //Enter correct email address and password
+  await page.locator('div.login-form input[type="email"]').fill(email);
+  await page.locator('input[name="password"]').fill(password);
+
+  //Click 'Login' button
+  await page.locator('//button[contains(text(),"Login")]').click();
+
+  //  Verify that 'Logged in as username' is visible
+  await expect(page.locator('//a[contains(text(),"Logged in as")]')).toBeVisible();
+
+  // Click 'Logout' button
+  await page.locator('//a[contains(text(),"Logout")]').click();
+
+  // Verify that user is navigated to login page
+  await expect(page).toHaveTitle("Automation Exercise - Signup / Login");
 })
 
 
