@@ -38,21 +38,21 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     // Setup project
-    {
-      name: 'setup',
-      testMatch: /.*\.setup\.ts/
-    },
+    // {
+    //   name: 'setup',
+    //   testMatch: /.*\.setup\.ts/
+    // },
 
-    {
-      testDir: './tests/MyEricsionPage',
-      name: 'functional',
-      use: {
-        // browserName: 'firefox',
-        // ...devices['Desktop Firefox'],
-        storageState: './auth/login.json'
-      },
-      dependencies: ['setup']
-    }
+    // {
+    //   testDir: './tests/MyEricsionPage',
+    //   name: 'functional',
+    //   use: {
+    //     // browserName: 'firefox',
+    //     // ...devices['Desktop Firefox'],
+    //     storageState: './auth/login.json'
+    //   },
+    //   dependencies: ['setup']
+    // }
   ],
 
 
